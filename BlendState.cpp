@@ -1,5 +1,6 @@
 #include "BlendState.h"
 
+//ã‡‡VínäC
 BlendState::BlendState()
 	: m_pState(nullptr)
 {
