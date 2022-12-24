@@ -2,6 +2,7 @@
 
 //‹ààV’nŠC
 // test
+// test2
 BlendState::BlendState()
 	: m_pState(nullptr)
 {
