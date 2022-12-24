@@ -1,6 +1,7 @@
 #include "BlendState.h"
 
 //ã‡‡VínäC
+// test
 BlendState::BlendState()
 	: m_pState(nullptr)
 {
