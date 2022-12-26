@@ -1,3 +1,5 @@
+//ボスのcppファイルです
+
 #include "BOSS.h"
 #include "Input.h"
 #include <DirectXMath.h>
