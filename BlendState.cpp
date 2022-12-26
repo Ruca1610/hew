@@ -1,6 +1,7 @@
 #include "BlendState.h"
 
-//ã‡‡VínäC
+//Ç§ÇÒÇ±
+
 // test
 // test2
 BlendState::BlendState()
