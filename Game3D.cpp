@@ -7,11 +7,18 @@ const int LIMIT_POS_FRONT_Z = 15;
 const int LIMIT_POS_BACK_Z = 15;
 
 Enemy* m_pEnemy[MAX_ENEMY];
-bool Hit = false;;
+bool Hit = false;
+
+//
+XAUDIO2_BUFFER* m_pTitle;
+XAUDIO2_BUFFER* m_pAttack;
+IXAudio2SourceVoice* m_pBGMSource;
+
 
 Game3D::Game3D()
 	:HitPlayer(false)
 	,m_MaxCurrent(18000)
+	, m_volume(0.7)
 {
 	//rand()を完全ランダムにてくれる処理
 	srand((unsigned int)time(nullptr));
@@ -72,6 +79,13 @@ Game3D::Game3D()
 	//DirectX::XMFLOAT3 debg;
 	//DirectX::XMStoreFloat3(&debg, vSpeed);
 	//m_pBullet->SetVector(vSpeed);
+
+	//音源の読み込み
+	m_pTitle = CreateSound("Assets/Win.mp3", true);
+	m_pAttack = CreateSound("Assets/Gunshot01-1.mp3", false);
+	
+	m_pBGMSource = StartSound(m_pTitle);
+	m_pBGMSource->SetVolume(Volume());
 }
 Game3D::~Game3D()
 {
@@ -107,6 +121,7 @@ void Game3D::Update()
 
 		if (!pEvent->IsEvent())
 		{
+			//m_pBGMSource->Stop();
 			camera = CAM_PLAYER;
 		}
 	}
@@ -470,6 +485,10 @@ void Game3D::Update()
 			m_pEnemy[i]->SetPos(fEnemyPos.x, 0.5f, fEnemyPos.z);
 		}
 	}
+
+	//ボリュームの設定
+	m_pBGMSource->SetVolume(Volume());
+
 }
 void Game3D::Draw()
 {
@@ -577,6 +596,7 @@ void Game3D::AttackEnemy()
 
 			if (IsKeyTrigger(VK_SHIFT))
 			{
+				StartSound(m_pAttack);
 				if ((m_pPlayer->GetPos().x - m_pEnemy[i]->GetPos().x) * (m_pPlayer->GetPos().x - m_pEnemy[i]->GetPos().x) +
 					(m_pPlayer->GetPos().y - m_pEnemy[i]->GetPos().y) * (m_pPlayer->GetPos().y - m_pEnemy[i]->GetPos().y) +
 					(m_pPlayer->GetPos().z - m_pEnemy[i]->GetPos().z) * (m_pPlayer->GetPos().z - m_pEnemy[i]->GetPos().z)
@@ -606,4 +626,32 @@ void Game3D::CollisionEnemy()
 			}
 		}
 	}
+}
+
+float Game3D::Volume()
+{
+	if (m_volume <= 1.0f)
+	{
+		if (IsKeyTrigger('9'))
+		{
+			m_volume += 0.1;
+		}
+	}
+	else
+	{
+		m_volume = 1.0f;
+	}
+	if (m_volume >= 0.0f)
+	{
+		if (IsKeyTrigger('8'))
+		{
+			m_volume -= 0.1;
+		}
+	}
+	else
+	{
+		m_volume = 0.0f;
+	}
+	
+	return m_volume;
 }

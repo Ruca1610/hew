@@ -18,6 +18,7 @@
 #include "GameUI.h"
 #include "UI.h"
 #include "ModelList.h"
+#include "Sound.h"
 
 
 class Game3D
@@ -43,6 +44,8 @@ public:
 	void AttackEnemy();
 	void CollisionEnemy();
 
+	float Volume();
+
 private:
 	CameraBase* m_pCamera[MAX_CAMERA];	// もともとは一台分しかなかったが、複数台用意
 	CameraKind m_mainCamera;			// 現在、表示に利用しているカメラの番号
@@ -58,6 +61,7 @@ private:
 	BOSS* m_pBOSS;
 	Bullet* m_pBullet;
 
+	
 
 	DirectX::XMFLOAT3 fEnemyPos;
 	float m_MaxCurrent = 0;
@@ -66,6 +70,9 @@ private:
 	int m_frame = 0;
 	//何ウェーブなのかを管理
 	int m_nCnt = 0;
+
+	//音量の調節用
+	float m_volume;
 };
 
 #endif // __GAME_3D_H__
